@@ -1,18 +1,19 @@
 package strcon
+
 import (
-    "bytes"
-    "unicode"
+	"bytes"
+	"unicode"
 )
 
-func SwapCase(str string)string {
-    buf:=&bytes.buffer{}
-    
-    for _,r:=range(str){
-	if unicode.isUpper(r){
-	    buf.WriteRune(unicode.ToLower(r))
-	} else {
-	    buf.WriteRune(unicode.ToUpper(r))
+func SwapCase(str string) string {
+	buf := &bytes.Buffer{}
+
+	for _, r := range str {
+		if unicode.IsUpper(r) {
+			buf.WriteRune(unicode.ToLower(r))
+		} else {
+			buf.WriteRune(unicode.ToUpper(r))
+		}
 	}
-    }
-    return buf.String()
+	return buf.String()
 }
