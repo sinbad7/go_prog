@@ -4,10 +4,10 @@ import (
 )
 
 func main(){
-    var x [5]int
-    x[0]=10
-    x[1]=20
+    x:= [5]int{10,20,30,40,50}
+    for k,v := range x {
+	fmt.Printf("Index: %d Value %d\n",k,v)
+    }
     
-    
-    
+
 }
