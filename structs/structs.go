@@ -28,9 +28,26 @@ type Admin struct {
 	Roles []string
 }
 
+func (a Admin) PrintDetails() {
+	a.Person.PrintDetails()
+	fmt.Println("Admin Roles:")
+	for _, v := range a.Roles {
+		fmt.Println(v)
+	}
+
+}
+
 type Member struct {
 	Person
 	Skills []string
+}
+
+func (m Member) PrintDetails() {
+	m.Person.PrintDetails()
+	fmt.Println("Skills:")
+	for _, v := range m.Skills {
+		fmt.Println(v)
+	}
 }
 
 func main() {
