@@ -1,7 +1,7 @@
 package main
 import (
     "fmt"
-    "strcon"
+    "github.com/go_prog/strcon"
 )
 
 func main(){

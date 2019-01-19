@@ -12,5 +12,4 @@ func main(){
     for k,v := range dict {
 	fmt.Printf("Key: %s Value %s\n", k,v)
     }
-    
 }
