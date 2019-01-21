@@ -1,7 +1,4 @@
 structs/structs.exe
-<<<<<<< HEAD
-goroutines/goroutines.exe
-=======
 arrays/arrays
 structs/structs
 hello/hello
@@ -9,8 +6,9 @@ maps/maps
 usestrcon/usestrcon
 channels/channels
 staticweb/staticweb
->>>>>>> 406e6c56648e91544a11f95ca15cc466c15798a3
 staticweb/staticweb.exe
 handlers/handlers.exe
 handlerfunc/handlerfunc.exe
 handlerclosure/handlerclosure.exe
+defaultmux/defaultmux.exe
+goroutines/goroutines.exe
