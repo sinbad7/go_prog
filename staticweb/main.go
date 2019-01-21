@@ -1,12 +1,12 @@
 package main
 
 import (
-    "net/http"
+	"net/http"
 )
 
 func main() {
-    mux := http.NewServeMux()
-    fs := http.FileServer(http.Dir("home/grigorovich/go/src/github.com/go_prog/staticweb/public"))
-    mux.Handle("/", fs)
-    http.ListenAndServe(":8080", mux)
+	mux := http.NewServeMux()
+	fs := http.FileServer(http.Dir("public"))
+	mux.Handle("/", fs)
+	http.ListenAndServe(":8080", mux)
 }
