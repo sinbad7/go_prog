@@ -13,3 +13,4 @@ handlerclosure/handlerclosure.exe
 defaultmux/defaultmux.exe
 goroutines/goroutines.exe
 httpstruct/httpstruct.exe
+jsonrest/jsonrest
