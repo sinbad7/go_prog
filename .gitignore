@@ -14,3 +14,4 @@ defaultmux/defaultmux.exe
 goroutines/goroutines.exe
 httpstruct/httpstruct.exe
 jsonrest/jsonrest
+txttempl/txttempl
