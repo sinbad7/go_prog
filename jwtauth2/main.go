@@ -3,7 +3,10 @@ package main
 import (
     "net/http"
     "encoding/json"
+    "os"
+    "github.com/gorilla/handlers"
     "github.com/gorilla/mux"
+    
 )
 
 type Product struct {
@@ -60,7 +63,7 @@ func main() {
     r.Handle("/products", ProductsHandler).Methods("GET")
     r.Handle("/products/{slug}/feedback", AddFeedbackHandler).Methods("POST")
     r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-    http.ListenAndServe(":8080", r)
+    http.ListenAndServe(":8080", handlers.LoggingHandler(os.Stdout, r))
 
 }
 
