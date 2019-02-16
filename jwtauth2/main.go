@@ -4,9 +4,12 @@ import (
     "net/http"
     "encoding/json"
     "os"
+    "time"
+
     "github.com/gorilla/handlers"
     "github.com/gorilla/mux"
-    
+    jwt "github.com/dgrijalva/jwt-go"  
+    "github.com/auth0/go-jwt-middleware"
 )
 
 type Product struct {
@@ -55,13 +58,35 @@ var AddFeedbackHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Re
     }
 })
 
+var mySigningKey = []byte("secret123")
+
+var GetTokenHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+  
+  token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+        "admin"  : "true",
+        "name"   : "Ado Kukic",
+        "exp"    : time.Now().Add(time.Hour * 24).Unix(),  
+  })
+  tokenString, _ := token.SignedString(mySigningKey)
+  w.Write([]byte(tokenString))
+})
+
+var jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
+    ValidationKeyGetter: func(token *jwt.Token) (interface{}, error){
+        return mySigningKey, nil
+    },
+    SigningMethod: jwt.SigningMethodHS256,
+})
 
 func main() {
     r := mux.NewRouter()
     r.Handle("/", http.FileServer(http.Dir("./views/")))
     r.Handle("/status", StatusHandler).Methods("GET")
-    r.Handle("/products", ProductsHandler).Methods("GET")
-    r.Handle("/products/{slug}/feedback", AddFeedbackHandler).Methods("POST")
+    r.Handle("/products", 
+        jwtMiddleware.Handler(ProductsHandler)).Methods("GET")
+    r.Handle("/products/{slug}/feedback", 
+        jwtMiddleware.Handler(AddFeedbackHandler)).Methods("POST")
+    r.Handle("/get-token", GetTokenHandler).Methods("GET")
     r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
     http.ListenAndServe(":8080", handlers.LoggingHandler(os.Stdout, r))
 
