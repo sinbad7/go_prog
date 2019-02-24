@@ -1,20 +1,30 @@
 package main
 
 import (
-    "log"
-    "net/http"
+	"log"
+	"net/http"
+	"path/filepath"
+	"sync"
+	"text/template"
 )
 
+type templateHandler struct {
+	once     sync.Once
+	filename string
+	templ    *template.Template
+}
+
+func (t *templateHandler) serveHTTP(w http.ResponseWriter, r *http.ResponseWriter) {
+	t.once.Do(func() {
+		t.templ = template.Must(template.ParseFiles(filepath.Join("templates",
+			t.filename)))
+	})
+	t.templ.Execute(w, nil)
+}
+
 func main() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte(`
-            <html>
-                <head> <title> Chat </title> </head>
-                <body> Let's chat! </body>
-            </html>`
-            ))
-    })
-    if err := http.ListenAndServe(":8080", nil); err != nil{
-        log.Fatal("ListenAndServe:", err)
-    }
+	http.HandleFunc("/", &templateHandler{filename: "chat.html"})
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal("ListenAndServe:", err)
+	}
 }
